@@ -1,0 +1,10 @@
+bin/
+Debug/
+Release/
+ipch/
+*.exe
+*.sdf
+*.opensdf
+*.filters
+*.user
+*.suo
