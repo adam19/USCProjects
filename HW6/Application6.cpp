@@ -23,7 +23,6 @@ static char THIS_FILE[]=__FILE__;
 #define OUTFILE "output.ppm"
 
 
-
 float AAFilter[AAKERNEL_SIZE][3] =			/* X, Y, coef */
 {
 	-0.52f, 0.38f, 0.128f,
@@ -64,7 +63,7 @@ int Application5::Initialize()
 	GzPointer   valueListShader[9];		/* shader attribute pointers */
 	GzToken     nameListLights[10];		/* light info */
 	GzPointer   valueListLights[10];
-	int			shaderType, interpStyle;
+	int			interpStyle;
 	float		specpower;
 	int			status; 
  
@@ -189,9 +188,7 @@ GzMatrix	rotateY =
         status |= GzPutAttribute(m_pRender, 3, nameListLights, valueListLights);
 		for (int i=0; i<AAKERNEL_SIZE; i++)
 		{
-			char str[256];
-			sprintf(str, "Renderer[%i]\n", i);
-			OutputDebugString(str);
+			printf_s("Renderer[%i]\n", i);
 
 			status |= GzPutAttribute(renderers[i], 3, nameListLights, valueListLights);
 		}
@@ -239,9 +236,7 @@ GzMatrix	rotateY =
 		GzPointer valueListShift[2];
 		for (int i=0; i<AAKERNEL_SIZE; i++)
 		{
-			char str[256];
-			sprintf(str, "Renderer[%i]\n", i);
-			OutputDebugString(str);
+			printf_s("Renderer[%i]\n", i);
 
 			float sx = AAFilter[i][0];
 			float sy = AAFilter[i][1];
@@ -293,41 +288,35 @@ int Application5::Render()
 
 	// I/O File open
 	FILE *infile;
-	if( (infile  = fopen( INFILE , "r" )) == NULL )
+	if (fopen_s(&infile, INFILE, "r") != NULL)
 	{
-         AfxMessageBox( "The input file was not opened\n" );
+         MessageBox(NULL, L"[1]: The input file was not opened\n", L"Error", MB_OK );
 		 return GZ_FAILURE;
 	}
 
 	FILE *outfile;
-	if( (outfile  = fopen( OUTFILE , "wb" )) == NULL )
+	if( (fopen_s(&outfile, OUTFILE , "wb" )) != NULL )
 	{
-         AfxMessageBox( "The output file was not opened\n" );
+         MessageBox( NULL, L"The output file was not opened\n", L"Error", MB_OK);
 		 return GZ_FAILURE;
 	}
 
 	/* 
 	* Walk through the list of triangles, set color 
 	* and render each triangle 
-	*/ 
-	while( fscanf(infile, "%s", dummy) == 1) { 	/* read in tri word */
-	    fscanf_s(infile, "%f %f %f %f %f %f %f %f", 
-		&(vertexList[0][0]), &(vertexList[0][1]),  
-		&(vertexList[0][2]), 
-		&(normalList[0][0]), &(normalList[0][1]), 	
-		&(normalList[0][2]), 
+	*/
+	while( fscanf(infile, "%s", dummy) != EOF ) { 	/* read in tri word */
+	    fscanf(infile, "%f %f %f %f %f %f %f %f", 
+		&(vertexList[0][0]), &(vertexList[0][1]), &(vertexList[0][2]), 
+		&(normalList[0][0]), &(normalList[0][1]), &(normalList[0][2]), 
 		&(uvList[0][0]), &(uvList[0][1]) ); 
-	    fscanf_s(infile, "%f %f %f %f %f %f %f %f", 
-		&(vertexList[1][0]), &(vertexList[1][1]), 	
-		&(vertexList[1][2]), 
-		&(normalList[1][0]), &(normalList[1][1]), 	
-		&(normalList[1][2]), 
+	    fscanf(infile, "%f %f %f %f %f %f %f %f", 
+		&(vertexList[1][0]), &(vertexList[1][1]), &(vertexList[1][2]), 
+		&(normalList[1][0]), &(normalList[1][1]), &(normalList[1][2]), 
 		&(uvList[1][0]), &(uvList[1][1]) ); 
-	    fscanf_s(infile, "%f %f %f %f %f %f %f %f", 
-		&(vertexList[2][0]), &(vertexList[2][1]), 	
-		&(vertexList[2][2]), 
-		&(normalList[2][0]), &(normalList[2][1]), 	
-		&(normalList[2][2]), 
+	    fscanf(infile, "%f %f %f %f %f %f %f %f", 
+		&(vertexList[2][0]), &(vertexList[2][1]), &(vertexList[2][2]), 
+		&(normalList[2][0]), &(normalList[2][1]), &(normalList[2][2]), 
 		&(uvList[2][0]), &(uvList[2][1]) ); 
 
 	    /* 
@@ -341,7 +330,7 @@ int Application5::Render()
 		 GzPutTriangle(m_pRender, 3, nameListTriangle, valueListTriangle); 
 		 for (int i=0; i<AAKERNEL_SIZE; i++)
 			GzPutTriangle(renderers[i], 3, nameListTriangle, valueListTriangle); 
-	} 
+	}
 
 	// combine all framebuffers
 	for (int j=0; j<renderers[0]->display->xres * renderers[0]->display->yres; j++)
@@ -374,12 +363,11 @@ int Application5::Render()
 	/* 
 	 * Close file
 	 */ 
-
 	if( fclose( infile ) )
-      AfxMessageBox( "The input file was not closed\n" );
+		MessageBox(NULL, L"[2] The input file was not closed\n", L"Error", MB_OK);
 
 	if( fclose( outfile ) )
-      AfxMessageBox( "The output file was not closed\n" );
+		MessageBox(NULL, L"The output file was not closed\n", L"Error", MB_OK);
  
 	if (status) 
 		return(GZ_FAILURE); 

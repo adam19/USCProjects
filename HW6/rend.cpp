@@ -345,9 +345,7 @@ int GzPutAttribute(GzRender	*render, int numAttributes, GzToken	*nameList,
 				float *x = (float*)valueList[i];
 				render->pixelOffset[0] = *x * -1.0f;
 
-				char str[255];
-				sprintf_s(str, "  AASHIFTX = %f\n", render->pixelOffset[0]);
-				OutputDebugString(str);
+				printf_s("  AASHIFTX = %f\n", render->pixelOffset[0]);
 			}break;
 
 			case GZ_AASHIFTY:
@@ -355,9 +353,7 @@ int GzPutAttribute(GzRender	*render, int numAttributes, GzToken	*nameList,
 				float *y = (float*)valueList[i];
 				render->pixelOffset[1] = *y * -1.0f;
 
-				char str[255];
-				sprintf_s(str, "  AASHIFTY = %f\n", render->pixelOffset[1]);
-				OutputDebugString(str);
+				printf_s("  AASHIFTY = %f\n", render->pixelOffset[1]);
 			}break;
 		}
 	}
@@ -434,8 +430,6 @@ void CalcLight(GzRender *render, const float *normal, const float z, float *uv, 
 		diff[2] += xformLight.color[2] * (float)nDotL;
 	}
 
-	
-	GzColor ambient, diffuse;
 	if (render->tex_fun != NULL)
 	{
 		if (render->interp_mode == GZ_COLOR) // Gouraud

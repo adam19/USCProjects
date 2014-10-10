@@ -11,18 +11,18 @@ int reset = 1;
 int tex_fun(float u, float v, GzColor color)
 {
 	unsigned char		pixel[3];
-	unsigned char     dummy;
-	char  		foo[8];
-	int   		i;
-	FILE			*fd;
+	unsigned char		dummy;
+	char  				foo[8];
+	int   				i;
+	FILE				*fd;
 
 	if (reset) {          /* open and load texture file */
-		fd = fopen ("texture", "rb");
+		fopen_s(&fd, "texture", "rb");
 		if (fd == NULL) {
 			fprintf (stderr, "texture file not found\n");
 			exit(-1);
 		}
-		fscanf (fd, "%s %d %d %c", foo, &xs, &ys, &dummy);
+		fscanf(fd, "%s %d %d %c", foo, &xs, &ys, &dummy);
 		image = (GzColor*)malloc(sizeof(GzColor)*(xs+1)*(ys+1));
 		if (image == NULL) {
 			fprintf (stderr, "malloc for texture image failed\n");
@@ -109,7 +109,7 @@ int ptex_fun(float u, float v, GzColor color)
 		{
 			for (int y=0; y<512; y++)
 			{
-				float val = (sin(((float)x/512.0f)*(checkDim/6.28)) * sin(((float)y/512.0f)*(checkDim/6.28)));
+				float val = (float)(sin(((float)x/512.0f)*(checkDim/6.28)) * sin(((float)y/512.0f)*(checkDim/6.28)));
 				if (val > 0)
 					val = 1.0f;
 				else

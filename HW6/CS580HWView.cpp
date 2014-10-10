@@ -104,7 +104,7 @@ void CCS580HWView::OnRender()
 	if(m_pApplication != NULL)
 		((Application5 *)m_pApplication)->Render();
 	else 
-		AfxMessageBox("Application was not allocated\n");
+		MessageBox(L"Application was not allocated\n", L"Error", MB_OK);
 
 	// Set window size
 	CRect clientRect, windowRect;
@@ -130,7 +130,7 @@ void CCS580HWView::DrawFrameBuffer(CDC *pDC)
 
 	if(!m_pApplication->m_pRender->open)
 	{
-		AfxMessageBox("Renderer was not opened\n");
+		MessageBox(L"Renderer was not opened\n", L"Error", MB_OK);
 		return;
 	}
 

@@ -14,25 +14,20 @@ float Clamp(float v, float min, float max)
 
 inline void PrintGzCoord(const GzCoord v)
 {
-	char str[256] = "";
-	sprintf_s(str, "<%f %f %f>\n", v[0], v[1], v[2]);
-	OutputDebugString(str);
+	printf_s("<%f %f %f>\n", v[0], v[1], v[2]);
 }
 
 void PrintGzMatrix(GzMatrix mat)
 {
-	char str[256] = "";
-
 	for (int i=0; i<4; i++)
 	{
 		for (int j=0; j<4; j++)
 		{
-			sprintf_s(str, "%f\t", mat[i][j]);
-			OutputDebugString(str);
+			printf_s("%f\t", mat[i][j]);
 		}
-		OutputDebugString("\n");
+		printf_s("\n");
 	}
-	OutputDebugString("\n");
+	printf_s("\n");
 }
 
 void IdentityMatrix(GzMatrix mat)

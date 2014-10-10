@@ -4,7 +4,10 @@ Release/
 ipch/
 *.exe
 *.sdf
+*.pdb
 *.opensdf
 *.filters
 *.user
 *.suo
+
+*.ppm

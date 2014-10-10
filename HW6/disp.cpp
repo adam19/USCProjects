@@ -4,7 +4,7 @@
 #include	"Gz.h"
 #include	"disp.h"
 
-FILE* outf_disp = fopen("output_disp.txt", "w");
+FILE* outf_disp;
 
 
 int GzNewFrameBuffer(char** framebuffer, int width, int height)
@@ -74,6 +74,7 @@ int GzGetDisplayParams(GzDisplay *display, int *xRes, int *yRes, GzDisplayClass	
 
 int GzInitDisplay(GzDisplay	*display)
 {
+	fopen_s(&outf_disp, "output_disp.txt", "w");
 /* set everything to some default values - start a new frame */
 	GzPixel defaultPixel;
 	defaultPixel.alpha = 1;
